@@ -1,0 +1,10 @@
+void setup()
+void loop()
+Serial.begin(9600);
+delay(มิลลิวินาที);
+Serial.print("...");
+Serial.println("...");
+pinMode(เลขpin, MODE);
+digitalWrite(เลขpin, STATE);
+
+**ห้ามใช้ pin 0 กับ 1**

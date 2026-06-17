@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arduino Syntax Training</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h2>🔥 ฝึกเติม code Arduino ในช่องว่าง 🔥</h2>
+        
+        <div class="level-container">
+            <label for="level-select">เลือกระดับ: </label>
+            <select id="level-select" onchange="changeLevel()">
+                <option value="1">ระดับ 1 (พื้นฐาน)</option>
+                <option value="2">ระดับ 2 (เพิ่มคำสั่ง I/O)</option>
+                <option value="3" selected>ระดับ 3 (ตัวแปร)</option>
+            </select>
+            
+            <div class="switch-container" id="focus-switch-container">
+                <label class="switch">
+                  <input type="checkbox" id="focus-toggle" onchange="changeLevel()">
+                  <span class="slider round"></span>
+                </label>
+                <span class="switch-label">โฟกัสเฉพาะเนื้อหาระดับนี้</span>
+            </div>
+        </div>
+
+        <div class="score-container">
+            <div class="score-text">
+                <span class="score-correct-text">✅ ถูก: <span id="count-correct">0</span></span>
+                <span class="score-incorrect-text">❌ ผิด: <span id="count-incorrect">0</span></span>
+                <span class="score-skipped-text">⏭️ ข้าม: <span id="count-skipped">0</span></span>
+            </div>
+            <div class="score-bar">
+                <div id="bar-correct" class="bar-segment bar-correct" style="width: 0%"></div>
+                <div id="bar-incorrect" class="bar-segment bar-incorrect" style="width: 0%"></div>
+                <div id="bar-skipped" class="bar-segment bar-skipped" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <pre id="code-display"></pre>
+        
+        <div class="btn-group">
+            <button class="btn-check" onclick="checkAnswer()">ตรวจคำตอบ</button>
+            <button class="btn-next" onclick="nextQuestion()">สุ่มข้อใหม่ 🎲</button>
+        </div>
+        
+        <div id="feedback" class="feedback"></div>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
