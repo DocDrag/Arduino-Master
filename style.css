@@ -51,6 +51,8 @@
         .btn-check:hover { background: #005f9e; }
         .btn-next { background: #555; color: white; }
         .btn-next:hover { background: #777; }
+        .btn-restart { background: #ff9800; color: white; }
+        .btn-restart:hover { background: #e68a00; }
         .feedback { 
             margin-top: 20px; 
             font-size: 1.2rem; 

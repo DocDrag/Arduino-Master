@@ -272,5 +272,14 @@
             if(e.key === 'Enter') checkAnswer();
         }
 
+        function restartGame() {
+            scoreCorrect = 0;
+            scoreIncorrect = 0;
+            scoreSkipped = 0;
+            currentQuestionStatus = "completed";
+            updateScoreUI();
+            nextQuestion();
+        }
+
         // เริ่มเกมข้อแรกทันทีที่โหลดเว็บ
         nextQuestion();
