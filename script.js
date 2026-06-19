@@ -50,6 +50,26 @@
             "var_int", "var_float", "var_string", "var_bool", "var_char"
         ];
 
+        const level4Types = [
+            "const_int", "define_pin", "math_inc", "math_dec", "math_mod", "compare_eq", "compare_neq"
+        ];
+        
+        const level5Types = [
+            "if_cond", "else_cond", "else_if_cond"
+        ];
+        
+        const level6Types = [
+            "for_loop", "while_loop"
+        ];
+        
+        const level7Types = [
+            "digital_read", "analog_read", "analog_write"
+        ];
+
+        const level8Types = [
+            "func_void", "func_return"
+        ];
+
         function changeLevel() {
             const level = document.getElementById("level-select").value;
             const focusContainer = document.getElementById("focus-switch-container");
@@ -88,6 +108,36 @@
                     questionTypes = level3Types;
                 } else {
                     questionTypes = level1Types.concat(level2Types, level3Types);
+                }
+            } else if (level === "4") {
+                if (isFocus) {
+                    questionTypes = level4Types;
+                } else {
+                    questionTypes = level1Types.concat(level2Types, level3Types, level4Types);
+                }
+            } else if (level === "5") {
+                if (isFocus) {
+                    questionTypes = level5Types;
+                } else {
+                    questionTypes = level1Types.concat(level2Types, level3Types, level4Types, level5Types);
+                }
+            } else if (level === "6") {
+                if (isFocus) {
+                    questionTypes = level6Types;
+                } else {
+                    questionTypes = level1Types.concat(level2Types, level3Types, level4Types, level5Types, level6Types);
+                }
+            } else if (level === "7") {
+                if (isFocus) {
+                    questionTypes = level7Types;
+                } else {
+                    questionTypes = level1Types.concat(level2Types, level3Types, level4Types, level5Types, level6Types, level7Types);
+                }
+            } else if (level === "8") {
+                if (isFocus) {
+                    questionTypes = level8Types;
+                } else {
+                    questionTypes = level1Types.concat(level2Types, level3Types, level4Types, level5Types, level6Types, level7Types, level8Types);
                 }
             }
             
@@ -214,6 +264,94 @@
                     template = "__________ grade = 'A';\n\nvoid setup() {\n  \n}\n\nvoid loop() {\n  \n}";
                     answer = "char";
                     hint = "ชนิดตัวแปรเก็บตัวอักษรเพียง 1 ตัว";
+                    break;
+                case "const_int":
+                    const pC = getRandomPin();
+                    template = "__________ int ledPin = " + pC + "; // ห้ามแก้ไขค่าพิน\n\nvoid setup() {\n  \n}\n\nvoid loop() {\n  \n}";
+                    answer = "const";
+                    hint = "กำหนดให้ตัวแปรมีค่าคงที่ เปลี่ยนแปลงไม่ได้";
+                    break;
+                case "define_pin":
+                    const pD = getRandomPin();
+                    template = "#__________ BUTTON_PIN " + pD + "\n\nvoid setup() {\n  \n}\n\nvoid loop() {\n  \n}";
+                    answer = "define";
+                    hint = "กำหนดค่าคงที่แบบ Macro (ไม่มีเครื่องหมาย ; ต่อท้าย)";
+                    break;
+                case "math_inc":
+                    template = "int count = 0;\n\nvoid setup() {\n  \n}\n\nvoid loop() {\n  count__________; // เพิ่มค่า count ทีละ 1\n}";
+                    answer = "++";
+                    hint = "เครื่องหมายเพิ่มค่าทีละ 1";
+                    break;
+                case "math_dec":
+                    template = "int timer = 10;\n\nvoid setup() {\n  \n}\n\nvoid loop() {\n  timer__________; // ลดค่า timer ทีละ 1\n}";
+                    answer = "--";
+                    hint = "เครื่องหมายลดค่าทีละ 1";
+                    break;
+                case "math_mod":
+                    template = "void setup() {\n  \n}\n\nvoid loop() {\n  int remain = 10 __________ 3; // หารเอาเศษ ได้ 1\n}";
+                    answer = "%";
+                    hint = "เครื่องหมายหารเอาเศษ (Modulo)";
+                    break;
+                case "compare_eq":
+                    template = "void setup() {\n  \n}\n\nvoid loop() {\n  if (score __________ 100) {\n    // ทำงานเมื่อคะแนนเท่ากับ 100\n  }\n}";
+                    answer = "==";
+                    hint = "เครื่องหมายเปรียบเทียบความเท่ากัน (ใช้ 2 ตัวติดกัน)";
+                    break;
+                case "compare_neq":
+                    template = "void setup() {\n  \n}\n\nvoid loop() {\n  if (status __________ 0) {\n    // ทำงานเมื่อสถานะไม่เท่ากับ 0\n  }\n}";
+                    answer = "!=";
+                    hint = "เครื่องหมายเปรียบเทียบความไม่เท่ากัน";
+                    break;
+                case "if_cond":
+                    template = "void loop() {\n  __________ (sensorValue > 500) {\n    digitalWrite(13, HIGH);\n  }\n}";
+                    answer = "if";
+                    hint = "คำสั่งเช็คเงื่อนไข (ถ้า...)";
+                    break;
+                case "else_cond":
+                    template = "void loop() {\n  if (sensorValue > 500) {\n    digitalWrite(13, HIGH);\n  } __________ {\n    digitalWrite(13, LOW);\n  }\n}";
+                    answer = "else";
+                    hint = "คำสั่งทำงานเมื่อเงื่อนไขแรกไม่เป็นจริง (มิฉะนั้น...)";
+                    break;
+                case "else_if_cond":
+                    template = "void loop() {\n  if (score >= 80) {\n    // เกรด A\n  } __________ (score >= 70) {\n    // เกรด B\n  }\n}";
+                    answer = "else if";
+                    hint = "คำสั่งเช็คเงื่อนไขถัดไป (เว้นวรรค 1 ช่อง)";
+                    break;
+                case "for_loop":
+                    template = "void setup() {\n  __________ (int i = 0; i < 5; i++) {\n    // ทำงาน 5 รอบ\n  }\n}\n\nvoid loop() {\n  \n}";
+                    answer = "for";
+                    hint = "คำสั่งวนลูปแบบรู้จำนวนรอบที่แน่นอน";
+                    break;
+                case "while_loop":
+                    template = "void setup() {\n  \n}\n\nvoid loop() {\n  __________ (digitalRead(2) == HIGH) {\n    // วนลูปตราบใดที่ปุ่มยังถูกกดอยู่\n  }\n}";
+                    answer = "while";
+                    hint = "คำสั่งวนลูปตราบใดที่เงื่อนไขยังเป็นจริง";
+                    break;
+                case "digital_read":
+                    const pR = getRandomPin();
+                    template = "void setup() {\n  pinMode(" + pR + ", INPUT);\n}\n\nvoid loop() {\n  int val = __________(" + pR + ");\n}";
+                    answer = "digitalRead";
+                    hint = "อ่านค่าสถานะดิจิทัลจากขาพิน (HIGH/LOW)";
+                    break;
+                case "analog_read":
+                    template = "void setup() {\n  \n}\n\nvoid loop() {\n  int val = __________(A0); // อ่านค่าอนาล็อก 0-1023\n}";
+                    answer = "analogRead";
+                    hint = "อ่านค่าอนาล็อกจากขา A0 ถึง A5";
+                    break;
+                case "analog_write":
+                    template = "void setup() {\n  pinMode(9, OUTPUT);\n}\n\nvoid loop() {\n  __________(9, 128); // สั่งจ่ายไฟ PWM ครึ่งหนึ่ง\n}";
+                    answer = "analogWrite";
+                    hint = "สั่งจ่ายสัญญาณ PWM (ค่า 0-255)";
+                    break;
+                case "func_void":
+                    template = "__________ turnOnLed() {\n  digitalWrite(13, HIGH);\n}\n\nvoid setup() {\n  \n}\n\nvoid loop() {\n  turnOnLed();\n}";
+                    answer = "void";
+                    hint = "ชนิดฟังก์ชันที่ไม่ต้องส่งค่ากลับ";
+                    break;
+                case "func_return":
+                    template = "int getDouble(int x) {\n  __________ x * 2;\n}\n\nvoid setup() {\n  \n}\n\nvoid loop() {\n  \n}";
+                    answer = "return";
+                    hint = "คำสั่งส่งคืนค่าออกจากฟังก์ชัน";
                     break;
             }
             return { template, answer, hint };
