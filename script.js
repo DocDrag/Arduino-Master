@@ -70,6 +70,14 @@
             "func_void", "func_return"
         ];
 
+        const level9Types = [
+            "logic_and", "logic_or", "logic_not", "time_millis", "math_map", "math_random"
+        ];
+
+        const level10Types = [
+            "switch_cmd", "case_cmd", "break_cmd", "array_declare", "include_lib"
+        ];
+
         function changeLevel() {
             const level = document.getElementById("level-select").value;
             const focusContainer = document.getElementById("focus-switch-container");
@@ -138,6 +146,18 @@
                     questionTypes = level8Types;
                 } else {
                     questionTypes = level1Types.concat(level2Types, level3Types, level4Types, level5Types, level6Types, level7Types, level8Types);
+                }
+            } else if (level === "9") {
+                if (isFocus) {
+                    questionTypes = level9Types;
+                } else {
+                    questionTypes = level1Types.concat(level2Types, level3Types, level4Types, level5Types, level6Types, level7Types, level8Types, level9Types);
+                }
+            } else if (level === "10") {
+                if (isFocus) {
+                    questionTypes = level10Types;
+                } else {
+                    questionTypes = level1Types.concat(level2Types, level3Types, level4Types, level5Types, level6Types, level7Types, level8Types, level9Types, level10Types);
                 }
             }
             
@@ -353,6 +373,61 @@
                     answer = "return";
                     hint = "คำสั่งส่งคืนค่าออกจากฟังก์ชัน";
                     break;
+                case "logic_and":
+                    template = "void loop() {\n  if (temp > 30 __________ humidity > 70) {\n    // ทำงานเมื่อร้อน และ ชื้น\n  }\n}";
+                    answer = "&&";
+                    hint = "เครื่องหมาย 'และ' (ต้องจริงทั้งคู่)";
+                    break;
+                case "logic_or":
+                    template = "void loop() {\n  if (day == 6 __________ day == 7) {\n    // ทำงานเมื่อเป็นวันเสาร์ หรือ วันอาทิตย์\n  }\n}";
+                    answer = "||";
+                    hint = "เครื่องหมาย 'หรือ' (ขีดตั้ง 2 ตัว)";
+                    break;
+                case "logic_not":
+                    template = "void loop() {\n  if (__________isReady) {\n    // ทำงานเมื่อ isReady มีค่าเป็น false (ไม่พร้อม)\n  }\n}";
+                    answer = "!";
+                    hint = "เครื่องหมาย 'ไม่' (สลับค่าความจริง)";
+                    break;
+                case "time_millis":
+                    template = "void setup() {\n  \n}\n\nvoid loop() {\n  unsigned long currentMillis = __________();\n}";
+                    answer = "millis";
+                    hint = "ฟังก์ชันคืนค่าเวลาเป็นมิลลิวินาทีตั้งแต่เปิดบอร์ด";
+                    break;
+                case "math_map":
+                    template = "void loop() {\n  int val = analogRead(A0);\n  int pwmVal = __________(val, 0, 1023, 0, 255);\n  analogWrite(9, pwmVal);\n}";
+                    answer = "map";
+                    hint = "ฟังก์ชันแปลงช่วงค่า (เช่น 0-1023 เป็น 0-255)";
+                    break;
+                case "math_random":
+                    template = "void loop() {\n  int r = __________(1, 7); // สุ่มเลข 1 ถึง 6\n}";
+                    answer = "random";
+                    hint = "ฟังก์ชันสุ่มตัวเลข";
+                    break;
+                case "switch_cmd":
+                    template = "void loop() {\n  char key = 'A';\n  __________(key) {\n    case 'A':\n      break;\n  }\n}";
+                    answer = "switch";
+                    hint = "คำสั่งเลือกทำงานตามค่าของตัวแปร (ใช้คู่กับ case)";
+                    break;
+                case "case_cmd":
+                    template = "void loop() {\n  int menu = 1;\n  switch(menu) {\n    __________ 1:\n      // ทำงานเมนู 1\n      break;\n  }\n}";
+                    answer = "case";
+                    hint = "ระบุเงื่อนไขในคำสั่ง switch";
+                    break;
+                case "break_cmd":
+                    template = "void loop() {\n  switch(state) {\n    case 0:\n      turnOff();\n      __________; // หยุดและออกจาก switch\n  }\n}";
+                    answer = "break";
+                    hint = "คำสั่งหยุดและกระโดดออกจากลูปหรือ switch";
+                    break;
+                case "array_declare":
+                    template = "int ledPins__________ = {2, 3, 4, 5, 6};\n\nvoid setup() {\n  \n}";
+                    answer = "[5]";
+                    hint = "กำหนดขนาดของอาร์เรย์ (ใส่วงเล็บเหลี่ยมและเลข 5)";
+                    break;
+                case "include_lib":
+                    template = "__________ <Servo.h>\n\nServo myServo;\n\nvoid setup() {\n  \n}";
+                    answer = "#include";
+                    hint = "คำสั่งเรียกใช้งานไลบรารีเพิ่มเติม (ขึ้นต้นด้วย #)";
+                    break;
             }
             return { template, answer, hint };
         }
@@ -412,7 +487,7 @@
 
         function restartGame() {
             Swal.fire({
-                title: 'เริ่มเกมใหม่?',
+                title: 'เริ่มใหม่?',
                 text: "คะแนนปัจจุบันจะถูกรีเซ็ตทั้งหมด!",
                 icon: 'warning',
                 showCancelButton: true,
