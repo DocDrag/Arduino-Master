@@ -411,12 +411,27 @@
         }
 
         function restartGame() {
-            scoreCorrect = 0;
-            scoreIncorrect = 0;
-            scoreSkipped = 0;
-            currentQuestionStatus = "completed";
-            updateScoreUI();
-            nextQuestion();
+            Swal.fire({
+                title: 'เริ่มเกมใหม่?',
+                text: "คะแนนปัจจุบันจะถูกรีเซ็ตทั้งหมด!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ff9800',
+                cancelButtonColor: '#555',
+                confirmButtonText: 'ใช่, เริ่มเลย!',
+                cancelButtonText: 'ยกเลิก',
+                background: '#2d2d2d',
+                color: '#d4d4d4'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    scoreCorrect = 0;
+                    scoreIncorrect = 0;
+                    scoreSkipped = 0;
+                    currentQuestionStatus = "completed";
+                    updateScoreUI();
+                    nextQuestion();
+                }
+            });
         }
 
         // เริ่มเกมข้อแรกทันทีที่โหลดเว็บ
